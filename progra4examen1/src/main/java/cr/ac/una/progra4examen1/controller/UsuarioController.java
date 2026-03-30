@@ -32,11 +32,4 @@ public class UsuarioController {
         return "index";
     }
 
-
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate(); // Invalidar la sesión
-        return "redirect:/login?logout";
-    }
-
 }

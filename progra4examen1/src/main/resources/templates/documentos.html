@@ -18,7 +18,7 @@
         <a th:href="@{/documentos}">DOCUMENTOS</a>
     </div>
     <div class="menu-right">
-        <span>👤 <span sec:authentication="name"></span></span>
+        <span> <span sec:authentication="name"></span></span>
         <form th:action="@{/logout}" method="post" style="display: inline; margin-left: 15px;">
             <button type="submit">Cerrar sesión</button>
         </form>

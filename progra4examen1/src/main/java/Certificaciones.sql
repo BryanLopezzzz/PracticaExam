@@ -39,12 +39,12 @@ ALTER TABLE Linea     ADD FOREIGN KEY (documento) REFERENCES Documento(id);
 
 INSERT INTO Usuario (id, clave, rol)
 VALUES ('JPerez',
-        '$2a$12$UafgQkd9TVJxw9W4HoQ1eePssHEW6IPlX9VeKHWvMfiEeHGgsdOGO',
+        '$2a$10$nRFxtOZnlJPSJjYp9PLhL.lCeAUxetRlsmLlVSJXSG8G1lZynfzaO',
         'CLI');
 
 INSERT INTO Usuario (id, clave, rol)
 VALUES ('MMata',
-        '$2a$12$z0dbkRqX1JSXOjAN9YX8tOWp.Es70TJl08ebtGgrwdOvgKe9dC67e',
+        '$2a$10$a6lGFWnRb6jMiYB7hQkmzOVTvvR/py/JQ1MIA4DdCLx91vJLsBsb.',
         'CLI');
 
 INSERT INTO Tipo (id, nombre) VALUES ('001', 'Personas Juridicas');
