@@ -3,60 +3,40 @@ package cr.ac.una.progra4examen1.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "mis_documentos")
+@Table(name = "Linea")
 public class MisDocumento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
+    @JoinColumn(name = "usuario")
     private Usuario usuario;
 
     @ManyToOne
+    @JoinColumn(name = "documento")
     private Documento documento;
 
-    private int cantidad;
+    private Integer cantidad;
 
-    public MisDocumento() {
-    }
+    public MisDocumento() {}
 
-    public MisDocumento(Long id, Usuario usuario, Documento documento, int cantidad) {
-        this.id = id;
-        this.usuario = usuario;
+    public MisDocumento(Usuario usuario, Documento documento, Integer cantidad) {
+        this.usuario   = usuario;
         this.documento = documento;
-        this.cantidad = cantidad;
+        this.cantidad  = cantidad;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Integer getId()               { return id; }
+    public void    setId(Integer id)     { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Usuario getUsuario()                  { return usuario; }
+    public void    setUsuario(Usuario usuario)   { this.usuario = usuario; }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
+    public Documento getDocumento()                    { return documento; }
+    public void      setDocumento(Documento documento) { this.documento = documento; }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public Documento getDocumento() {
-        return documento;
-    }
-
-    public void setDocumento(Documento documento) {
-        this.documento = documento;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
+    public Integer getCantidad()                   { return cantidad; }
+    public void    setCantidad(Integer cantidad)   { this.cantidad = cantidad; }
 }

@@ -10,18 +10,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class UsuarioService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    public Usuario registrarUsuario(Usuario usuario) {
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        return usuarioRepository.save(usuario);
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
     }
-
-    public Usuario buscarPorLogin(String login) {
-        return usuarioRepository.findByLogin(login).orElse(null);
+    public Usuario buscarPorId(String id) {
+        return usuarioRepository.findById(id).orElse(null);
     }
 }

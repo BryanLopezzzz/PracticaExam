@@ -16,22 +16,23 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+
 @Controller
 @RequestMapping("/documentos")
 public class DocumentoController {
 
-    private final MisDocumentoService misDocumentoService;
-    private final DocumentoService documentoService;
-    private final UsuarioService usuarioService;
+    private final MisDocumentoService  misDocumentoService;
+    private final DocumentoService     documentoService;
+    private final UsuarioService       usuarioService;
     private final TipoDocumentoService tipoDocumentoService;
 
     public DocumentoController(MisDocumentoService misDocumentoService,
                                DocumentoService documentoService,
                                UsuarioService usuarioService,
                                TipoDocumentoService tipoDocumentoService) {
-        this.misDocumentoService = misDocumentoService;
-        this.documentoService = documentoService;
-        this.usuarioService = usuarioService;
+        this.misDocumentoService  = misDocumentoService;
+        this.documentoService     = documentoService;
+        this.usuarioService       = usuarioService;
         this.tipoDocumentoService = tipoDocumentoService;
     }
 
@@ -39,13 +40,15 @@ public class DocumentoController {
     public String verDocumentos(@AuthenticationPrincipal UserDetails userDetails,
                                 @RequestParam(name = "tipo", required = false) String tipoCodigo,
                                 Model model) {
-        String login = userDetails.getUsername();
-        Usuario usuario = usuarioService.buscarPorLogin(login);
 
-        List<MisDocumento> documentosUsuario = misDocumentoService.obtenerPorUsuarioId(usuario.getId());
+        Usuario usuario = usuarioService.buscarPorId(userDetails.getUsername());
 
-        double total = documentosUsuario.stream()
-                .mapToDouble(md -> (md.getDocumento().getMonto() + md.getDocumento().getTimbres()) * md.getCantidad())
+        List<MisDocumento> misDocumentos = misDocumentoService.obtenerPorUsuario(usuario);
+
+        double total = misDocumentos.stream()
+                .mapToDouble(md -> (md.getDocumento().getMonto()
+                        + md.getDocumento().getTimbres())
+                        * md.getCantidad())
                 .sum();
 
         List<TipoDocumento> tipos = tipoDocumentoService.listarTodos();
@@ -55,44 +58,40 @@ public class DocumentoController {
             documentosFiltrados = documentoService.buscarPorTipo(tipoCodigo);
         }
 
-        model.addAttribute("tipos", tipos);
-        model.addAttribute("selectedTipo", tipoCodigo);
-        model.addAttribute("documentosFiltrados", documentosFiltrados);
-        model.addAttribute("misDocumentos", documentosUsuario);
-        model.addAttribute("misDocumento", new MisDocumento());
-        model.addAttribute("total", total);
-        model.addAttribute("username", login);
+        model.addAttribute("tipos",               tipos);
+        model.addAttribute("selectedTipo",         tipoCodigo);
+        model.addAttribute("documentosFiltrados",  documentosFiltrados);
+        model.addAttribute("misDocumentos",        misDocumentos);
+        model.addAttribute("total",                total);
+        model.addAttribute("username",             userDetails.getUsername());
 
         return "documentos";
     }
 
     @PostMapping("/agregar")
-    public String agregarDocumento(@RequestParam("docId") String docId,
+    public String agregarDocumento(@RequestParam("docId")      String docId,
                                    @RequestParam("tipoActual") String tipoCodigo,
                                    @AuthenticationPrincipal UserDetails userDetails) {
 
-        Usuario usuario = usuarioService.buscarPorLogin(userDetails.getUsername());
+        Usuario  usuario  = usuarioService.buscarPorId(userDetails.getUsername());
         Documento documento = documentoService.buscarPorId(docId);
 
-        Optional<MisDocumento> existente = misDocumentoService.buscarPorUsuarioYDocumento(usuario, documento);
+        Optional<MisDocumento> existente =
+                misDocumentoService.buscarPorUsuarioYDocumento(usuario, documento);
 
         if (existente.isPresent()) {
             MisDocumento md = existente.get();
             md.setCantidad(md.getCantidad() + 1);
-            misDocumentoService.agregarDocumento(md);
+            misDocumentoService.guardar(md);
         } else {
-            MisDocumento nuevo = new MisDocumento();
-            nuevo.setUsuario(usuario);
-            nuevo.setDocumento(documento);
-            nuevo.setCantidad(1);
-            misDocumentoService.agregarDocumento(nuevo);
+            MisDocumento nuevo = new MisDocumento(usuario, documento, 1);
+            misDocumentoService.guardar(nuevo);
         }
-
         return "redirect:/documentos/show?tipo=" + tipoCodigo;
     }
 
     @GetMapping("/eliminar/{id}")
-    public String eliminarDocumento(@PathVariable Long id) {
+    public String eliminarDocumento(@PathVariable Integer id) {
         misDocumentoService.eliminarPorId(id);
         return "redirect:/documentos/show";
     }

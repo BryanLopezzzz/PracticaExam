@@ -16,25 +16,20 @@ public class DocumentoService {
     private final DocumentoRepository documentoRepository;
     private final TipoDocumentoRepository tipoDocumentoRepository;
 
-    public DocumentoService(DocumentoRepository documentoRepository, TipoDocumentoRepository tipoDocumentoRepository) {
-        this.documentoRepository = documentoRepository;
+    public DocumentoService(DocumentoRepository documentoRepository,
+                            TipoDocumentoRepository tipoDocumentoRepository) {
+        this.documentoRepository     = documentoRepository;
         this.tipoDocumentoRepository = tipoDocumentoRepository;
-    }
-
-    public List<Documento> listarTodos() {
-        return documentoRepository.findAll();
     }
 
     public Documento buscarPorId(String id) {
         return documentoRepository.findById(id).orElse(null);
     }
-
     public List<Documento> buscarPorTipo(String tipoCodigo) {
         TipoDocumento tipo = tipoDocumentoRepository.findById(tipoCodigo).orElse(null);
         if (tipo != null) {
-            return documentoRepository.findByTipoDocumento(tipo);
+            return documentoRepository.findByTipo(tipo);
         }
         return new ArrayList<>();
     }
-
 }

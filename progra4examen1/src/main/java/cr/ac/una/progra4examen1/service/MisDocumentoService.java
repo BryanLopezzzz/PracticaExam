@@ -13,26 +13,25 @@ import java.util.Optional;
 @Service
 public class MisDocumentoService {
 
-    @Autowired
-    private MisDocumentoRepository misDocumentoRepository;
+    private final MisDocumentoRepository misDocumentoRepository;
 
-    public MisDocumento agregarDocumento(MisDocumento misDocumento) {
+    public MisDocumentoService(MisDocumentoRepository misDocumentoRepository) {
+        this.misDocumentoRepository = misDocumentoRepository;
+    }
+
+    public MisDocumento guardar(MisDocumento misDocumento) {
         return misDocumentoRepository.save(misDocumento);
     }
 
-    public List<MisDocumento> obtenerPorUsuarioId(Long usuarioId) {
-        return misDocumentoRepository.findByUsuarioId(usuarioId);
-    }
-
-    public void eliminarPorId(Long id) {
-        misDocumentoRepository.deleteById(id);
-    }
-
-    public MisDocumento buscarPorId(Long id) {
-        return misDocumentoRepository.findById(id).orElse(null);
+    public List<MisDocumento> obtenerPorUsuario(Usuario usuario) {
+        return misDocumentoRepository.findByUsuario(usuario);
     }
 
     public Optional<MisDocumento> buscarPorUsuarioYDocumento(Usuario usuario, Documento documento) {
         return misDocumentoRepository.findByUsuarioAndDocumento(usuario, documento);
+    }
+
+    public void eliminarPorId(Integer id) {
+        misDocumentoRepository.deleteById(id);
     }
 }

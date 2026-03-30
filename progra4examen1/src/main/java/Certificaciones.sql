@@ -1,0 +1,80 @@
+
+CREATE DATABASE IF NOT EXISTS Certificaciones;
+
+USE Certificaciones;
+
+CREATE TABLE Usuario (
+                         id    varchar(10) UNIQUE NOT NULL,
+                         clave varchar(100)       NOT NULL,
+                         rol   varchar(10)        NOT NULL,
+                         PRIMARY KEY (id)
+);
+
+CREATE TABLE Tipo (
+                      id     varchar(10) UNIQUE NOT NULL,
+                      nombre varchar(30)        NOT NULL,
+                      PRIMARY KEY (id)
+);
+
+CREATE TABLE Documento (
+                           id          varchar(10) UNIQUE NOT NULL,
+                           descripcion varchar(50)        NOT NULL,
+                           monto       float,
+                           timbres     float,
+                           tipo        varchar(10),
+                           PRIMARY KEY (id)
+);
+
+CREATE TABLE Linea (
+                       id       integer AUTO_INCREMENT NOT NULL,
+                       usuario  varchar(10)            NOT NULL,
+                       documento varchar(10)           NOT NULL,
+                       cantidad integer,
+                       PRIMARY KEY (id)
+);
+
+ALTER TABLE Documento ADD FOREIGN KEY (tipo)      REFERENCES Tipo(id);
+ALTER TABLE Linea     ADD FOREIGN KEY (usuario)   REFERENCES Usuario(id);
+ALTER TABLE Linea     ADD FOREIGN KEY (documento) REFERENCES Documento(id);
+
+INSERT INTO Usuario (id, clave, rol)
+VALUES ('JPerez',
+        '$2a$12$UafgQkd9TVJxw9W4HoQ1eePssHEW6IPlX9VeKHWvMfiEeHGgsdOGO',
+        'CLI');
+
+INSERT INTO Usuario (id, clave, rol)
+VALUES ('MMata',
+        '$2a$12$z0dbkRqX1JSXOjAN9YX8tOWp.Es70TJl08ebtGgrwdOvgKe9dC67e',
+        'CLI');
+
+INSERT INTO Tipo (id, nombre) VALUES ('001', 'Personas Juridicas');
+INSERT INTO Tipo (id, nombre) VALUES ('002', 'Bienes Inmuebles');
+INSERT INTO Tipo (id, nombre) VALUES ('003', 'Bienes Muebles');
+INSERT INTO Tipo (id, nombre) VALUES ('004', 'Catastro');
+INSERT INTO Tipo (id, nombre) VALUES ('005', 'Placas');
+INSERT INTO Tipo (id, nombre) VALUES ('006', 'Propiedad Intelectual');
+INSERT INTO Tipo (id, nombre) VALUES ('007', 'Alerta Registral');
+
+INSERT INTO Documento (id, descripcion, monto, timbres, tipo)
+VALUES ('001', 'Afectacion', 2785, 315, '001');
+
+INSERT INTO Documento (id, descripcion, monto, timbres, tipo)
+VALUES ('002', 'Cedula Juridica', 2785, 315, '001');
+
+INSERT INTO Documento (id, descripcion, monto, timbres, tipo)
+VALUES ('003', 'Historica de Movimientos', 2785, 315, '001');
+
+INSERT INTO Documento (id, descripcion, monto, timbres, tipo)
+VALUES ('004', 'Historica de Propiedades', 2515, 115, '002');
+
+INSERT INTO Documento (id, descripcion, monto, timbres, tipo)
+VALUES ('005', 'Literal de Inmuebles', 2785, 315, '002');
+
+INSERT INTO Documento (id, descripcion, monto, timbres, tipo)
+VALUES ('006', 'Indice de Personas', 2515, 115, '002');
+
+INSERT INTO Documento (id, descripcion, monto, timbres, tipo)
+VALUES ('007', 'Solicitud de Placas de Motos y remolques', 10900, 0, '005');
+
+INSERT INTO Documento (id, descripcion, monto, timbres, tipo)
+VALUES ('008', 'Solicitud de Placas de Vehiculo', 17600, 0, '005');

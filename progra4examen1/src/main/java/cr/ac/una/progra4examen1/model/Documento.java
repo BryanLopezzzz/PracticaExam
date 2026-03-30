@@ -3,67 +3,44 @@ package cr.ac.una.progra4examen1.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "documentos")
+@Table(name = "Documento")
 public class Documento {
 
     @Id
     private String id;
+
     private String descripcion;
-    private int monto;
-    private int timbres;
+
+    private float monto;
+
+    private float timbres;
 
     @ManyToOne
-    @JoinColumn(name = "tipo_codigo")
-    private TipoDocumento tipoDocumento;
+    @JoinColumn(name = "tipo")
+    private TipoDocumento tipo;
 
-    public Documento() {
-    }
+    public Documento() {}
 
-    public Documento(String id, String descripcion, int monto, int timbres, TipoDocumento tipoDocumento) {
-        this.id = id;
+    public Documento(String id, String descripcion, float monto, float timbres, TipoDocumento tipo) {
+        this.id          = id;
         this.descripcion = descripcion;
-        this.monto = monto;
-        this.timbres = timbres;
-        this.tipoDocumento = tipoDocumento;
+        this.monto       = monto;
+        this.timbres     = timbres;
+        this.tipo        = tipo;
     }
 
-    public String getId() {
-        return id;
-    }
+    public String getId()              { return id; }
+    public void   setId(String id)     { this.id = id; }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    public String getDescripcion()                   { return descripcion; }
+    public void   setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
+    public float getMonto()              { return monto; }
+    public void  setMonto(float monto)   { this.monto = monto; }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+    public float getTimbres()                { return timbres; }
+    public void  setTimbres(float timbres)   { this.timbres = timbres; }
 
-    public int getMonto() {
-        return monto;
-    }
-
-    public void setMonto(int monto) {
-        this.monto = monto;
-    }
-
-    public int getTimbres() {
-        return timbres;
-    }
-
-    public void setTimbres(int timbres) {
-        this.timbres = timbres;
-    }
-
-    public TipoDocumento getTipoDocumento() {
-        return tipoDocumento;
-    }
-
-    public void setTipoDocumento(TipoDocumento tipoDocumento) {
-        this.tipoDocumento = tipoDocumento;
-    }
+    public TipoDocumento getTipo()                  { return tipo; }
+    public void          setTipo(TipoDocumento tipo) { this.tipo = tipo; }
 }
