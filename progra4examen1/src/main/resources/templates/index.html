@@ -9,20 +9,16 @@
 </head>
 <body>
 
-<!-- Header con imagen -->
 <header>
     <img th:src="@{/images/pintura.jpg}" alt="Encabezado Registro" style="width: 100%; height: auto;"/>
 </header>
 
-<!-- Subtítulo azul -->
 <div style="background-color: #032067; color: white; text-align: center; padding: 10px;">
     <strong>INICIO</strong>
 </div>
 
-<!-- Contenido principal: login a la izquierda, info a la derecha -->
 <div class="container" style="display: flex; padding: 20px;">
 
-    <!-- LOGIN a la izquierda -->
     <div style="width: 30%; margin-right: 40px;">
         <div style="border: 1px solid #ccc; padding: 20px; background-color: #f4f4f4; text-align: center;">
 
@@ -30,7 +26,6 @@
 
             <h3>INGRESO PARA USUARIOS REGISTRADOS</h3>
 
-            <!-- Si NO ha iniciado sesión -->
             <div sec:authorize="isAnonymous()">
                 <form th:action="@{/login}" method="post">
                     <label for="username">Correo electrónico</label>
@@ -43,7 +38,6 @@
                 </form>
             </div>
 
-            <!-- Si YA inició sesión -->
             <div sec:authorize="isAuthenticated()" style="margin-top: 20px;">
                 <p>Ya has iniciado sesión como <strong th:text="${username}">Usuario</strong>.</p>
                 <form th:action="@{/logout}" method="post">
@@ -53,7 +47,6 @@
         </div>
     </div>
 
-    <!-- INFORMACIÓN a la derecha -->
     <div style="flex: 1;">
         <h3 style="color: #032067;">Bienvenidos al Sistema de Certificaciones e Informes Digitales en línea del Registro Nacional</h3>
 
@@ -73,7 +66,6 @@
     </div>
 </div>
 
-<!-- Footer -->
 <footer style="background-color: #032067; color: white; text-align: center; padding: 10px;">
     <p>Todos los derechos reservados. 2013 . Registro Nacional . San José, Curridabat. Apartado Postal 523-2010 Curridabat mpdigital@rnp.go.cr</p>
 </footer>

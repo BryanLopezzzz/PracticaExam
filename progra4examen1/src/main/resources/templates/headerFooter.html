@@ -14,13 +14,7 @@
             <div class="headerLogo">
                 <img th:src="@{/images/logo.png}" th:alt="headerLogo.png">
             </div>
-            <!--
-            <th:block th:if="${session.usuario == null}">
-                <div>
-                    <a href="/presentation/usuario/show">Login</a>
-                </div>
-            </th:block>
-            -->
+
             <th:block th:if="${session.usuario != null}">
                 <div>
                     <span>Bienvenido, </span>
